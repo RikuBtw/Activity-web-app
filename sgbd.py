@@ -13,12 +13,10 @@ class SGBD:
     def datalist(self):
         query = ("SELECT ComLib, ActLib, ActNivLib FROM activite")
         self.cursor.execute(query)
-        ville=""
-        activite=""
-        niveau=""
-        s=""
+        resultat=[]
         for data in self.cursor:
-            rData+= str(data)
+            triplet = { data[0], data[1], data[2] }
+            rData.append(triplet)
         return rData
 
     # à partir du nom d'une ville, renvoie toutes les activités et leurs niveaux disponibles dans la ville
@@ -45,6 +43,18 @@ class SGBD:
             rVille.append( paire )
         return rVille
 
+    # à partir d'une activité et une ville, renvoie tous les niveaux disponibles
+    def act_ville_niv(self,act, ville):
+        act.capitalize()
+        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s AND ComLib=%s")
+        actVille = (act,ville)
+        rNiv = []
+        self.cursor.execute(query, actVille)
+        for (v) in self.cursor:
+            paire ={v[0], v[1]}
+            rNiv.append( paire )
+        return rNiv
+
     # à partir d'une activité et son niveau, renvoie toutes les villes disponible
     def niveau(self,act,niv):
         niv.capitalize()
@@ -58,5 +68,38 @@ class SGBD:
         self.cursor.close()
         return rNiveau
 
+    # à partir d'une ville, renvoie ses coordonnées
+    def positionGPS(self, ville):
+        ville.capitalize()
+        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s")
+        ville = (ville,)
+        rVille = []
+        self.cursor.execute(query, ville)
+        for (a) in self.cursor:
+          paire = {a[0], a[1]}
+          rVille.append( paire )
+        self.cursor.close()
+        return rVille
+
+    def villes(self):
+        query = ("SELECT ComLib FROM commune")
+        rVille = []
+        self.cursor.execute(query)
+        for (a) in self.cursor:
+          element = {a[0]}
+          rVille.append( element )
+        self.cursor.close()
+        return rVille
+
+    def activite(self):
+        query = ("SELECT ActLib FROM activite")
+        rActivite = []
+        self.cursor.execute(query)
+        for (a) in self.cursor:
+          element = {a[0]}
+          rActivite.append( element )
+        self.cursor.close()
+        return rActivite
+
 s = SGBD()
-print(s.niveau("Basket-Ball","Compétition national"))
+print(s.activite("Nantes"))
