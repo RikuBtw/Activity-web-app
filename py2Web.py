@@ -9,13 +9,16 @@ def send_static(filename):
 
 @route('/')
 def index():
-    return template('index.tpl', data=None)
+    bd = SGBD()
+    listVille = bd.villes()
+    return template('index.tpl', data=None, villeList=listVille)
 
 @route('/', method='POST')
 def index():
     bd = SGBD()
     name = request.forms.get('search')
     list = bd.ville_act(name)
+    listVille = bd.villes()
     if list != None:
-         return template('index.tpl', data=list)
+         return template('index.tpl', data=list,villeList=listVille)
 run(host='localhost', port=8000)
