@@ -82,7 +82,7 @@ class SGBD:
         return rVille
 
     def villes(self):
-        query = ("SELECT ComLib FROM commune")
+        query = ("SELECT ComLib FROM commune GROUP BY ComLib")
         rVille = []
         self.cursor.execute(query)
         for (a) in self.cursor:
@@ -91,8 +91,8 @@ class SGBD:
         self.cursor.close()
         return rVille
 
-    def activite(self):
-        query = ("SELECT ActLib FROM activite")
+    def activites(self):
+        query = ("SELECT ActLib FROM activite GROUP BY ActLib")
         rActivite = []
         self.cursor.execute(query)
         for (a) in self.cursor:
@@ -102,4 +102,4 @@ class SGBD:
         return rActivite
 
 s = SGBD()
-print(s.activite("Nantes"))
+print(s.activites())
