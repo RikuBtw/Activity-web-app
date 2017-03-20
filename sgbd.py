@@ -86,8 +86,7 @@ class SGBD:
         rVille = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          element = {a[0]}
-          rVille.append( element )
+          rVille.append( a[0] )
         self.cursor.close()
         return rVille
 

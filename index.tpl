@@ -30,8 +30,8 @@
   </head>
 
   <body>
-    <form action="" method="post">
-      <input list="browsers" name="browser">
+    <form action="" method="post" autocomplete="off">
+      <input list="browsers" name="search">
       <datalist id="browsers">
       <%
       for c in villeList:

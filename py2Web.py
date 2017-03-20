@@ -18,6 +18,7 @@ def index():
     bd = SGBD()
     name = request.forms.get('search')
     list = bd.ville_act(name)
+    ville = bd.villes()
     if list != None:
-         return template('index.tpl', data=list)
+         return template('index.tpl', data=list, villeList=ville)
 run(host='localhost', port=8000)
