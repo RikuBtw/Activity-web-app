@@ -1,0 +1,135 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+}
+input[type=submit] {
+	display: none;
+
+}
+form{
+	width: 100%;
+	height: 100%;
+}
+
+#rectangle-up{
+	display: flex;
+	align-items: center;
+ justify-content: center;
+	vertical-align:middle;
+	height: 90%;
+	width: 100%;
+	background-color: #2ecc71;
+	border-bottom: 4px solid #27ae60;
+	transition: height 0.2s ease;
+}
+
+
+#container-search{
+	height: 140px;
+	min-width: 70%;
+	transition: all 0.2s ease;
+
+}
+
+
+#container-search input[type=text] {
+  width: 100%;
+	height: 100%;
+	font-size: 30px;
+  padding: 40px 160px 40px 40px;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+	border-radius: 2px;
+  box-shadow: 0px 5px 10px #27ae60;
+	background-image: url('searchicon.svg');
+	background-size: 90px 90px;
+	background-position: calc(100% - 40px) 50%;
+	background-repeat: no-repeat;
+	transition: all 0.5s ease;
+}
+
+#container-search input[type=text]:hover {
+	box-shadow: 0px 5px 10px #16482b;
+}
+
+#container-search input[type=text]:focus {
+	box-shadow: 0px 5px 10px #16482b;
+}
+
+#rectangle-uped{
+	display: flex;
+	align-items: center;
+	vertical-align:middle;
+  height: 70px;
+	width: 100%;
+	background-color: #2ecc71;
+	border-bottom: 4px solid #27ae60;
+	transition: height 0.2s ease;
+}
+
+#container-searched{
+	height: 40px;
+	width: 40%;
+  margin-left: 40px;
+	transition: all 0.2s ease;
+}
+
+#container-searched input[type=text] {
+  width: 35%;
+	height: 100%;
+  font-size: 15px;
+	border: 1px solid #fff;
+	border-radius: 2px;
+	background-image: url('searchicon.svg');
+	background-size: 35px 35px;
+  background-position: 3px 50%;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+	transition: width 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+#container-searched input[type=text]:focus {
+	width: 100%;
+	height: 100%;
+	padding-left: 10px;
+  background-position: calc(100% - 3px) 50%;
+}
+
+.container-info{
+
+	position: fixed;
+	top:0;
+	left:0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	z-index:-1;
+}
+
+.info-haut{
+	display: flex;
+	align-items: center;
+justify-content: center;
+	vertical-align:middle;
+	background-color: #ccc;
+	height: 60%;
+	width: 100%;
+}
+
+#map {
+	height: 40%;
+	width: 100%;
+}
+
+#container-search .button{
+	display:none;
+}

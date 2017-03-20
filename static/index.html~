@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      function initMap() {
+        var ville = {lat: 47.408949, lng: -1.653876};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: ville
+        });
+        var marker = new google.maps.Marker({
+          position: ville,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy-LUs1hW_K0wSh38-nNVwkXUnJgPxyYU&callback=initMap">
+    </script>
+  </head>
+  <body>
+
+    <div class="rectangle">
+      <div class="rectangle-up">
+        <div class="container-search">
+ 	<form>
+  		<input type="text" name="search" placeholder="Search..">
+	</form>
+        </div>
+      </div>
+      <div class="rectangle-down">
+      </div>
+    </div>
+
+    <div class="container-map">
+      <div class="map-haut">
+      </div>
+      <div id="map">
+      </div>
+    </div>
+
+
+  </body>
+</html>
