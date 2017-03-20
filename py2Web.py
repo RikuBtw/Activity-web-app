@@ -9,7 +9,7 @@ def send_static(filename):
 
 @route('/')
 def index():
-    return template('index.tpl')
+    return template('index.tpl', data=None)
 
 @route('/', method='POST')
 def index():
@@ -17,16 +17,5 @@ def index():
     name = request.forms.get('search')
     list = bd.ville_act(name)
     if list != None:
-        return template('index.tpl', package=list)
-    else:
-        list = bd.act_ville(name)
-        if list != None:
-            return template('index.tpl', package=list)
-        else:
-            list = bd.niveau(name)
-            if list != None:
-                return template('index.tpl', package=list)
-            else:
-                return template('index.tpl', package='Pas de résultat')
-
+         return template('index.tpl', data=list)
 run(host='localhost', port=8000)

@@ -33,8 +33,13 @@
     <form action="" method="post">
        <input type="text" name="search" placeholder="Entrez la ville recherchée..." autocomplete="off" onkeypress="change()">
       <input type="submit" value="Search">
-
     </form>
+    <%
+    if data != None :
+    for i in data:
+    %>
+        <li>{{i}}</li>
+    %end
 
       <div id="map">
       </div>
