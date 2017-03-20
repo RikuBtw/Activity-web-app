@@ -8,115 +8,44 @@ class SGBD:
         self.cnx = mysql.connector.connect(user='E154817E', password = 'E154817E', database='E154817E', host ='infoweb')
         self.cursor = self.cnx.cursor()
 
-
-    # renvoie toutes les villes et les activités disponibles
     def datalist(self):
         query = ("SELECT ComLib, ActLib, ActNivLib FROM activite")
         self.cursor.execute(query)
-        resultat=[]
+        ville=""
+        activite=""
+        niveau=""
+        s=""
         for data in self.cursor:
-            triplet = { data[0], data[1], data[2] }
-            rData.append(triplet)
+            rData+= str(data)
         return rData
 
-    # à partir du nom d'une ville, renvoie toutes les activités et leurs niveaux disponibles dans la ville
     def ville_act(self,ville):
         query = ("SELECT ActLib, ActNivLib FROM activite WHERE ComLib=%s")
         ville = (ville,)
-        rActivite = []
+        rActivite = None
         self.cursor.execute(query, ville)
         for (a) in self.cursor:
-            paire = { a[0], a[1] }
-            rActivite.append( paire )
+            rActivite={a[0], a[1]}
 
         return rActivite
 
-    # à partir d'une activité, renvoie toutes les villes et leurs codes postaux qui permettent cette activité
     def act_ville(self,act):
         act.capitalize()
         query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s")
         act = (act,)
-        rVille = []
+        rVille = None
         self.cursor.execute(query, act)
         for (v) in self.cursor:
-            paire ={v[0], v[1]}
-            rVille.append( paire )
+            rVille={v[0], v[1]}
         return rVille
 
-    # à partir d'une activité et une ville, renvoie tous les niveaux disponibles
-    def act_ville_niv(self,act, ville):
-        act.capitalize()
-        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s AND ComLib=%s")
-        actVille = (act,ville)
-        rNiv = []
-        self.cursor.execute(query, actVille)
-        for (v) in self.cursor:
-            paire ={v[0], v[1]}
-            rNiv.append( paire )
-        return rNiv
-
-    # à partir d'une activité et son niveau, renvoie toutes les villes disponible
-    def niveau(self,act,niv):
+    def niveau(self,niv):
         niv.capitalize()
-        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s AND ActNivLib=%s")
-        actNiv = (act,niv)
-        rNiveau = []
-        self.cursor.execute(query, actNiv)
+        query = ("SELECT ActLib FROM activite WHERE ActNivLib=%s")
+        niv = (niv,)
+        rNiveau = None
+        self.cursor.execute(query, niv)
         for (a) in self.cursor:
-          paire = {a[0], a[1]}
-          rNiveau.append( paire )
+          rNiveau={a[0], a[1]}
         self.cursor.close()
         return rNiveau
-
-    # à partir d'une ville, renvoie ses coordonnées
-    def positionGPS(self, ville):
-        ville.capitalize()
-        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
-        ville = (ville,)
-        rVille = []
-        self.cursor.execute(query, ville)
-        for (a) in self.cursor:
-          rVille = "{lat: "+str(a[0])+", lng: "+ str(a[1])+"}"
-        self.cursor.close()
-        return rVille
-
-    def villes(self):
-        query = ("SELECT ComLib FROM commune GROUP BY ComLib")
-        rVille = []
-        self.cursor.execute(query)
-        for (a) in self.cursor:
-          element = {a[0]}
-          rVille.append( a[0])
-        self.cursor.close()
-        return rVille
-
-    def activites(self):
-        query = ("SELECT ActLib FROM activite GROUP BY ActLib")
-        rActivite = []
-        self.cursor.execute(query)
-        for (a) in self.cursor:
-          element = {a[0]}
-          rActivite.append( element )
-        self.cursor.close()
-        return rActivite
-
-    # à partir d'une ville, renvoie tous ses équipements
-    def equipements_villes(self, ville):
-        ville.capitalize()
-        rEquVille = []
-        ville = (ville,)
-        query = ("SELECT ComInsee FROM commune WHERE %s=ComLib")
-        self.cursor.execute(query, ville)
-        for (a) in self.cursor:
-            insee=a[0]
-        insee = (insee,)
-        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s")
-        self.cursor.execute(query, insee)
-        for (a) in self.cursor:
-          rEquVille.append( a[0] )
-        self.cursor.close()
-        return rEquVille
-
-
-s = SGBD()
-print(s.equipements_villes("nantes"))

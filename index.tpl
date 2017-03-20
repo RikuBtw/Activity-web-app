@@ -30,26 +30,23 @@
   </head>
 
   <body>
-    <form action="" method="post" autocomplete="off">
-      <input list="browsers" name="search">
-      <datalist id="browsers">
-      <%
-      for c in villeList:
-      %>
-          <option value={{c}}>
-      %end
-      </datalist>
-      <input type="submit" value="Search">
-    </form>
-    <%
-    if data != None :
-    for i in data:
-    %>
-        <li>{{i}}</li>
-    %end
+      <div id= 'rectangle-up'>
+        <div id= 'container-search'>
+          <form action="" method="post">
+             <input type="text" name="search" placeholder="Entrez la ville recherchée..." autocomplete="off" onkeypress="change()">
+            <input type="submit" value="Search">
 
+          </form>
+        </div>
+      </div>
+
+    <div class="container-info">
+      <div class="info-haut">
+        <p>{{package}}</p>
+      </div>
       <div id="map">
       </div>
+    </div>
 
 
   </body>
