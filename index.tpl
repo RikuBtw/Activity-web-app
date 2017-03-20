@@ -30,23 +30,14 @@
   </head>
 
   <body>
-      <div id= 'rectangle-up'>
-        <div id= 'container-search'>
-          <form action="" method="post">
-             <input type="text" name="search" placeholder="Entrez la ville recherchée..." autocomplete="off" onkeypress="change()">
-            <input type="submit" value="Search">
+    <form action="" method="post">
+       <input type="text" name="search" placeholder="Entrez la ville recherchée..." autocomplete="off" onkeypress="change()">
+      <input type="submit" value="Search">
 
-          </form>
-        </div>
-      </div>
+    </form>
 
-    <div class="container-info">
-      <div class="info-haut">
-        <p>{{package}}</p>
-      </div>
       <div id="map">
       </div>
-    </div>
 
 
   </body>
