@@ -71,13 +71,12 @@ class SGBD:
     # à partir d'une ville, renvoie ses coordonnées
     def positionGPS(self, ville):
         ville.capitalize()
-        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s")
+        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
         ville = (ville,)
         rVille = []
         self.cursor.execute(query, ville)
         for (a) in self.cursor:
-          paire = {a[0], a[1]}
-          rVille.append( paire )
+          rVille = "{lat: "+str(a[0])+", lng: "+ str(a[1])+"}"
         self.cursor.close()
         return rVille
 
@@ -86,7 +85,8 @@ class SGBD:
         rVille = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          rVille.append( a[0] )
+          element = {a[0]}
+          rVille.append( a[0])
         self.cursor.close()
         return rVille
 
@@ -99,3 +99,6 @@ class SGBD:
           rActivite.append( element )
         self.cursor.close()
         return rActivite
+
+s = SGBD()
+print(s.positionGPS("Nantes"))
