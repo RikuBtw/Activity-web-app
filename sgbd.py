@@ -15,7 +15,7 @@ class SGBD:
         self.cursor.execute(query)
         resultat=[]
         for data in self.cursor:
-            triplet = { data[0], data[1], data[2] }
+            triplet = data[0], data[1], data[2]
             rData.append(triplet)
         return rData
 
@@ -26,7 +26,7 @@ class SGBD:
         rActivite = []
         self.cursor.execute(query, ville)
         for (a) in self.cursor:
-            paire = { a[0], a[1] }
+            paire = a[0], a[1]
             rActivite.append( paire )
 
         return rActivite
@@ -39,7 +39,7 @@ class SGBD:
         rVille = []
         self.cursor.execute(query, act)
         for (v) in self.cursor:
-            paire ={v[0], v[1]}
+            paire =v[0], v[1]
             rVille.append( paire )
         return rVille
 
@@ -51,7 +51,7 @@ class SGBD:
         rNiv = []
         self.cursor.execute(query, actVille)
         for (v) in self.cursor:
-            paire ={v[0], v[1]}
+            paire =v[0], v[1]
             rNiv.append( paire )
         return rNiv
 
@@ -63,7 +63,7 @@ class SGBD:
         rNiveau = []
         self.cursor.execute(query, actNiv)
         for (a) in self.cursor:
-          paire = {a[0], a[1]}
+          paire = a[0], a[1]
           rNiveau.append( paire )
         self.cursor.close()
         return rNiveau
@@ -85,7 +85,6 @@ class SGBD:
         rVille = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          element = {a[0]}
           rVille.append( a[0])
         self.cursor.close()
         return rVille
@@ -95,8 +94,7 @@ class SGBD:
         rActivite = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          element = {a[0]}
-          rActivite.append( element )
+          rActivite.append( a[0] )
         self.cursor.close()
         return rActivite
 
