@@ -100,6 +100,3 @@ class SGBD:
           rActivite.append( element )
         self.cursor.close()
         return rActivite
-
-s = SGBD()
-print(s.activites())

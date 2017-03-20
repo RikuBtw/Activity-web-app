@@ -31,7 +31,14 @@
 
   <body>
     <form action="" method="post">
-       <input type="text" name="search" placeholder="Entrez la ville recherchée..." autocomplete="off" onkeypress="change()">
+      <input list="browsers" name="browser">
+      <datalist id="browsers">
+      <%
+      for c in villeList:
+      %>
+          <option value={{c}}>
+      %end
+      </datalist>
       <input type="submit" value="Search">
     </form>
     <%

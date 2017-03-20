@@ -9,7 +9,9 @@ def send_static(filename):
 
 @route('/')
 def index():
-    return template('index.tpl', data=None)
+    bd = SGBD()
+    ville = bd.villes()
+    return template('index.tpl', data=None, villeList=ville)
 
 @route('/', method='POST')
 def index():
