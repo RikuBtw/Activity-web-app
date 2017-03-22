@@ -31,6 +31,4 @@ def index():
 
 
 
-
-
 run(host='localhost', port=8000)
