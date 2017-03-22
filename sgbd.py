@@ -28,18 +28,17 @@ class SGBD:
         for (a) in self.cursor:
             paire = { a[0], a[1] }
             rActivite.append( paire )
-
         return rActivite
 
     # à partir d'une activité, renvoie toutes les villes et leurs codes postaux qui permettent cette activité
     def act_ville(self,act):
         act.capitalize()
-        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s")
+        query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
         act = (act,)
         rVille = []
         self.cursor.execute(query, act)
         for (v) in self.cursor:
-            paire ={v[0], v[1]}
+            paire = v[0]
             rVille.append( paire )
         return rVille
 
@@ -65,19 +64,27 @@ class SGBD:
         for (a) in self.cursor:
           paire = {a[0], a[1]}
           rNiveau.append( paire )
-        self.cursor.close()
         return rNiveau
 
     # à partir d'une ville, renvoie ses coordonnées
-    def positionGPS(self, ville):
+    def LatitudeGPS(self, ville):
         ville.capitalize()
-        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
+        query = ("SELECT Latitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
         ville = (ville,)
         rVille = []
         self.cursor.execute(query, ville)
         for (a) in self.cursor:
-          rVille = "{lat: "+str(a[0])+", lng: "+ str(a[1])+"}"
-        self.cursor.close()
+          rVille = a[0]
+        return rVille
+
+    def LongitudeGPS(self, ville):
+        ville.capitalize()
+        query = ("SELECT Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
+        ville = (ville,)
+        rVille = []
+        self.cursor.execute(query, ville)
+        for (a) in self.cursor:
+          rVille = a[0]
         return rVille
 
     def villes(self):
@@ -87,7 +94,6 @@ class SGBD:
         for (a) in self.cursor:
           element = {a[0]}
           rVille.append( a[0])
-        self.cursor.close()
         return rVille
 
     def activites(self):
@@ -97,7 +103,6 @@ class SGBD:
         for (a) in self.cursor:
           element = {a[0]}
           rActivite.append( element )
-        self.cursor.close()
         return rActivite
 
     # à partir d'une ville, renvoie tous ses équipements
@@ -114,9 +119,8 @@ class SGBD:
         self.cursor.execute(query, insee)
         for (a) in self.cursor:
           rEquVille.append( a[0] )
-        self.cursor.close()
         return rEquVille
 
-
-s = SGBD()
-print(s.equipements_villes("nantes"))
+bd = SGBD()
+tmp = bd.LatitudeGPS("Nantes")
+print(str(tmp))

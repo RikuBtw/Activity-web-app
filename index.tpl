@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="./style.css">
     <script>
       function initMap() {
-        var ville = {lat: 47.408949, lng: -1.653876};
+        var ville = {lat: {{latitude}}, lng: {{longitude}}};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: ville
@@ -32,11 +32,17 @@
   <body>
     <form action="" method="post" autocomplete="off">
       <input list="browsers" name="search">
+      <select name="recherche">
+        <option value="Ville">Ville</option>
+        <option value="Sport">Sport</option>
+      </select>
       <datalist id="browsers">
       <%
-      for c in villeList:
+      if villes != None:
+      for c in villes:
       %>
           <option value={{c}}>
+      %end
       %end
       </datalist>
       <input type="submit" value="Search">
@@ -46,6 +52,7 @@
     for i in data:
     %>
         <li>{{i}}</li>
+    %end
     %end
 
       <div id="map">
