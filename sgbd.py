@@ -19,9 +19,9 @@ class SGBD:
             rData.append(triplet)
         return rData
 
-    # à partir du nom d'une ville, renvoie toutes les activités et leurs niveaux disponibles dans la ville
+    # à partir du nom d'une ville, renvoie toutes les activités disponibles dans la ville
     def ville_act(self,ville):
-        query = ("SELECT ActLib, ActNivLib FROM activite WHERE ComLib=%s")
+        query = ("SELECT ActLib FROM activite WHERE ComLib=%s")
         ville = (ville,)
         rActivite = []
         self.cursor.execute(query, ville)
@@ -30,7 +30,7 @@ class SGBD:
             rActivite.append( paire )
         return rActivite
 
-    # à partir d'une activité, renvoie toutes les villes et leurs codes postaux qui permettent cette activité
+    # à partir d'une activité, renvoie toutes les villes qui permettent cette activité
     def act_ville(self,act):
         act.capitalize()
         query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
@@ -42,31 +42,7 @@ class SGBD:
             rVille.append( paire )
         return rVille
 
-    # à partir d'une activité et une ville, renvoie tous les niveaux disponibles
-    def act_ville_niv(self,act, ville):
-        act.capitalize()
-        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s AND ComLib=%s")
-        actVille = (act,ville)
-        rNiv = []
-        self.cursor.execute(query, actVille)
-        for (v) in self.cursor:
-            paire ={v[0], v[1]}
-            rNiv.append( paire )
-        return rNiv
-
-    # à partir d'une activité et son niveau, renvoie toutes les villes disponible
-    def niveau(self,act,niv):
-        niv.capitalize()
-        query = ("SELECT ComLib, ComInsee FROM activite WHERE ActLib=%s AND ActNivLib=%s")
-        actNiv = (act,niv)
-        rNiveau = []
-        self.cursor.execute(query, actNiv)
-        for (a) in self.cursor:
-          paire = {a[0], a[1]}
-          rNiveau.append( paire )
-        return rNiveau
-
-    # à partir d'une ville, renvoie ses coordonnées
+    # à partir d'une ville, renvoie sa latitude
     def LatitudeGPS(self, ville):
         ville.capitalize()
         query = ("SELECT Latitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
@@ -77,9 +53,10 @@ class SGBD:
           rVille = a[0]
         return rVille
 
+    # à partir d'une ville, renvoie sa longitude
     def LongitudeGPS(self, ville):
         ville.capitalize()
-        query = ("SELECT Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
+        query = ("SELECT Longitude FROM commune WHERE ComLib=%s GROUP BY Longitude")
         ville = (ville,)
         rVille = []
         self.cursor.execute(query, ville)
@@ -93,7 +70,7 @@ class SGBD:
         self.cursor.execute(query)
         for (a) in self.cursor:
           element = {a[0]}
-          rVille.append( a[0])
+          rVille.append(a[0])
         return rVille
 
     def activites(self):
@@ -101,8 +78,7 @@ class SGBD:
         rActivite = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          element = {a[0]}
-          rActivite.append( element )
+          rActivite.append(a[0])
         return rActivite
 
     # à partir d'une ville, renvoie tous ses équipements
@@ -115,7 +91,7 @@ class SGBD:
         for (a) in self.cursor:
             insee=a[0]
         insee = (insee,)
-        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s")
+        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s GROUP BY EquNom")
         self.cursor.execute(query, insee)
         for (a) in self.cursor:
           rEquVille.append( a[0] )

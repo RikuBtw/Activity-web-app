@@ -28,15 +28,25 @@
 
   <body>
     <form action="" method="post" autocomplete="off">
-      <input list="browsers" name="search">
-      <select name="recherche">
-        <option value="Ville">Ville</option>
-        <option value="Sport">Sport</option>
+      Ville <input list="browsers" name="ville">
+      Activité <input list="browsers2" name="activite">
+      <select name="niveau">
+        <option value=""></option>
+        <option value=""></option>
       </select>
       <datalist id="browsers">
       <%
       if villes != None:
       for c in villes:
+      %>
+          <option value={{c}}>
+      %end
+      %end
+      </datalist>
+      <datalist id="browsers2">
+      <%
+      if activites != None:
+      for c in activites:
       %>
           <option value={{c}}>
       %end

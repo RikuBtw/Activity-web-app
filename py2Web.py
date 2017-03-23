@@ -11,23 +11,20 @@ def send_static(filename):
 def index():
     bd = SGBD()
     ville = bd.villes()
-    return template('index.tpl', data=None, villes=ville, latitude=0, longitude=0)
+    act = bd.activites()
+    return template('index.tpl', data=None, villes=ville, activites=act,latitude=0, longitude=0)
 
 @route('/', method='POST')
 def index():
     bd = SGBD()
     ville = bd.villes()
-    recherche = request.forms.get('recherche')
-    name = request.forms.get('search')
-    if recherche=="Ville" :
-        list = bd.ville_act(name)
-        lat = bd.LatitudeGPS(name)
-        long = bd.LongitudeGPS(name)
-    elif recherche == "Sport" :
-        list = bd.act_ville(name)
-        lat = 0
-        long = 0
-    return template('index.tpl', data=list, villes=ville, latitude=lat, longitude=long)
+    recherche = request.forms.get('ville')
+    name = request.forms.get('activite')
+    list = bd.equipements_villes(recherche)
+    lat = bd.LatitudeGPS(recherche)
+    long = bd.LongitudeGPS(recherche)
+    act = bd.activites()
+    return template('index.tpl', data=list, villes=ville, activites=act, latitude=lat, longitude=long)
 
 
 
