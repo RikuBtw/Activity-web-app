@@ -81,8 +81,8 @@ class SGBD:
           rActivite.append(a[0])
         return rActivite
 
-    # à partir d'une ville, renvoie tous ses équipements
-    def equipements_villes(self, ville):
+    # à partir d'une ville et d'une activité, renvoie tous ses équipements
+    def equipements_villes(self, ville, act):
         ville.capitalize()
         rEquVille = []
         ville = (ville,)
@@ -90,13 +90,21 @@ class SGBD:
         self.cursor.execute(query, ville)
         for (a) in self.cursor:
             insee=a[0]
-        insee = (insee,)
-        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s GROUP BY EquNom")
-        self.cursor.execute(query, insee)
+
+        act.capitalize()
+        act=(act,)
+        query = ("SELECT EquipementId FROM activite WHERE %s=ActLib")
+        self.cursor.execute(query, act)
+        for (a) in self.cursor:
+            equId=a[0]
+
+        paire = (insee, equId)
+        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s AND EquipementId=%s GROUP BY EquNom")
+        self.cursor.execute(query, paire)
         for (a) in self.cursor:
           rEquVille.append( a[0] )
         return rEquVille
 
 bd = SGBD()
-tmp = bd.LatitudeGPS("Nantes")
+tmp = bd.equipements_villes("Nantes", "Basket-Ball")
 print(str(tmp))

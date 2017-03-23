@@ -20,7 +20,7 @@ def index():
     ville = bd.villes()
     recherche = request.forms.get('ville')
     name = request.forms.get('activite')
-    list = bd.equipements_villes(recherche)
+    list = bd.ville_act(recherche)
     lat = bd.LatitudeGPS(recherche)
     long = bd.LongitudeGPS(recherche)
     act = bd.activites()
