@@ -19,19 +19,19 @@ class SGBD:
             rData.append(triplet)
         return rData
 
-    # à partir du nom d'une ville, renvoie toutes les activités disponibles dans la ville
-    def ville_act(self,ville):
-        query = ("SELECT ActLib FROM activite WHERE ComLib=%s")
-        ville = (ville,)
+    # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
+    def ville_act(self,ville,niv):
+        ville.capitalize()
+        query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
+        paire = (ville,niv)
         rActivite = []
-        self.cursor.execute(query, ville)
+        self.cursor.execute(query, paire)
         for (a) in self.cursor:
-            paire = { a[0], a[1] }
-            rActivite.append( paire )
+            rActivite.append( a[0] )
         return rActivite
 
-    # à partir d'une activité, renvoie toutes les villes qui permettent cette activité
-    def act_ville(self,act):
+    # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
+    def act_ville(self,act,niv):
         act.capitalize()
         query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
         act = (act,)
