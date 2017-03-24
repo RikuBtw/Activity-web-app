@@ -44,7 +44,7 @@ class SGBD:
         rActivite = []
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
-            rActivite.append( a[0] )
+            rActivite.append(a[0])
         return rActivite
 
     # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
@@ -54,8 +54,13 @@ class SGBD:
         paire = (act,niv)
         rVille = []
         self.cursor.execute(query, paire)
-        for (v) in self.cursor:
-            rVille.append( v[0] )
+        for (a) in self.cursor:
+            res = []
+            print(a[0])
+            lat = self.LatitudeGPS(a[0])
+            long = self.LongitudeGPS(a[0])
+            res = a[0]
+            rVille.append(res)
         return rVille
 
     # à partir d'une ville, d'une activité et d'un niveau, renvoie tous ses équipements
@@ -100,5 +105,4 @@ class SGBD:
         return rVille
 
 bd = SGBD()
-tmp = bd.equipements_villes("Nantes", "Basket-Ball", "Scolaire")
-print(str(tmp))
+tmp = bd.act_ville("Basket-Ball", "Scolaire")
