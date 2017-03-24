@@ -3,7 +3,7 @@
 from bottle import route, run, template, request, static_file
 from sgbd import SGBD
 
-@route('/file/<filename>')
+@route('/<filename>')
 def send_static(filename):
     return static_file(filename, root='static/')
 
