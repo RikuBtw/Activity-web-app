@@ -5,7 +5,20 @@
    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>
       function initMap() {
-        var ville = {lat: 47.408949, lng: -1.653876};
+
+        <%
+        ville = []
+        tmp=[]
+        for a in gps:
+        tmp = "lat:" + str(a[0]) + ", lng:" +str(a[1])
+        ville.append(tmp)
+        %>
+        %end
+        <%
+          print(ville)
+        %>
+        var ville = {{ville[0]}};
+
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: ville
@@ -56,6 +69,17 @@
           <hr>
         </form>
         <div class="info">
+          <%
+          if erreur != None:
+          %>
+            {{erreur}}
+          %end
+
+          <%
+          if data != None:
+          %>
+            {{data}}
+          %end
         </div>
       </div>
       <div id="map">

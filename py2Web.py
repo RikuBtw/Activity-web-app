@@ -38,7 +38,7 @@ def index():
         for element in rEqu:
             tmp = element[1][1], element[1][0]
             position2.append(tmp)
-            tmp2 = element
+            tmp2 = element[0]
             rData.append(tmp2)
         return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
 
@@ -54,7 +54,7 @@ def index():
         for element in rVille:
             tmp = element[1][1], element[1][0]
             position2.append(tmp)
-            tmp2 = element
+            tmp2 = element[0]
             rData.append(tmp2)
         return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
 
