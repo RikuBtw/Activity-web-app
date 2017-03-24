@@ -7,62 +7,8 @@ class SGBD:
     def __init__(self):
         self.cnx = mysql.connector.connect(user='E154817E', password = 'E154817E', database='E154817E', host ='infoweb')
         self.cursor = self.cnx.cursor()
-
-
-    # renvoie toutes les villes et les activités disponibles
-    def datalist(self):
-        query = ("SELECT ComLib, ActLib FROM activite")
-        self.cursor.execute(query)
-        resultat=[]
-        for data in self.cursor:
-            triplet = { data[0], data[1], data[2] }
-            rData.append(triplet)
-        return rData
-
-    # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
-    def ville_act(self,ville,niv):
-        ville.capitalize()
-        query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
-        paire = (ville,niv)
-        rActivite = []
-        self.cursor.execute(query, paire)
-        for (a) in self.cursor:
-            rActivite.append( a[0] )
-        return rActivite
-
-    # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
-    def act_ville(self,act,niv):
-        act.capitalize()
-        query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
-        act = (act,)
-        rVille = []
-        self.cursor.execute(query, act)
-        for (v) in self.cursor:
-            paire = v[0]
-            rVille.append( paire )
-        return rVille
-
-    # à partir d'une ville, renvoie sa latitude
-    def LatitudeGPS(self, ville):
-        ville.capitalize()
-        query = ("SELECT Latitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
-        ville = (ville,)
-        rVille = []
-        self.cursor.execute(query, ville)
-        for (a) in self.cursor:
-          rVille = a[0]
-        return rVille
-
-    # à partir d'une ville, renvoie sa longitude
-    def LongitudeGPS(self, ville):
-        ville.capitalize()
-        query = ("SELECT Longitude FROM commune WHERE ComLib=%s GROUP BY Longitude")
-        ville = (ville,)
-        rVille = []
-        self.cursor.execute(query, ville)
-        for (a) in self.cursor:
-          rVille = a[0]
-        return rVille
+        self.latitude = self.cnx.cursor()
+        self.longitude = self.cnx.cursor()
 
     #renvoie toutes les villes
     def villes(self):
@@ -92,42 +38,71 @@ class SGBD:
           rNiveau.append(a[0])
         return rNiveau
 
-    # à partir d'une activité et d'un niveau, renvoie toutes les équippemts qui permettent cette activité
-    def act_equ(self,act):
-        act.capitalize()
-        query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
-        act = (act,)
-        rVille = []
-        self.cursor.execute(query, act)
-        for (v) in self.cursor:
-            paire = v[0]
-            rVille.append( paire )
-        return rVille
-
-    # à partir d'une ville et d'une activité, renvoie tous ses équipements
-    def equipements_villes(self, ville, act):
+    # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
+    def ville_act(self,ville,niv):
         ville.capitalize()
-        rEquVille = []
-        ville = (ville,)
-        query = ("SELECT ComInsee FROM commune WHERE %s=ComLib")
-        self.cursor.execute(query, ville)
-        for (a) in self.cursor:
-            insee=a[0]
-
-        act.capitalize()
-        act=(act,)
-        query = ("SELECT EquipementId FROM activite WHERE %s=ActLib")
-        self.cursor.execute(query, act)
-        for (a) in self.cursor:
-            equId=a[0]
-
-        paire = (insee, equId)
-        query = ("SELECT EquNom FROM equipement WHERE ComInsee=%s AND EquipementId=%s GROUP BY EquNom")
+        query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
+        paire = (ville,niv)
+        rActivite = []
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
-          rEquVille.append( a[0] )
-        return rEquVille
+            rActivite.append(a[0])
+        return rActivite
 
-bd = SGBD()
-tmp = bd.equipements_villes("Nantes", "Basket-Ball")
-print(str(tmp))
+    # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
+    def act_ville(self,act,niv):
+        act.capitalize()
+        villes = []
+        tmp = []
+        query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
+        paire = (act,niv)
+        rVille = []
+        self.cursor.execute(query, paire)
+        for (a) in self.cursor:
+            villes.append(a[0])
+        for ville in villes:
+            tmp = ville, self.PositionGPS(ville)
+            rVille.append(tmp)
+        return rVille
+
+    # à partir d'une ville, d'une activité et d'un niveau, renvoie tous ses équipements
+    def equipements_villes(self, ville, act, niv):
+        ville.capitalize()
+        act.capitalize()
+        rRecherche = []
+        listeEquId = []
+        paire = (ville, act)
+        query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s")
+        self.cursor.execute(query, paire)
+        for (a) in self.cursor:
+            listeEquId.append(a[0])
+        for (a) in listeEquId:
+            paire = (a,)
+            query = ("SELECT EquNom, EquGpsX, EquGpsY FROM equipement WHERE EquipementId=%s")
+            self.cursor.execute(query, paire)
+            for (a) in self.cursor:
+                tmp = a[1],a[2]
+                tmp2= a[0],tmp
+                rRecherche.append(tmp2)
+        return rRecherche
+
+    # à partir d'une ville, renvoie sa latitude et sa longitude
+    def PositionGPS(self, ville):
+        ville.capitalize()
+        query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")
+        ville = (ville,)
+        rVille = []
+        self.latitude.execute(query, ville)
+        for (a) in self.latitude:
+          rVille = a[0],a[1]
+        return rVille
+
+#<%
+#ville = []
+#tmp=[]
+#for a in gps:
+#tmp = "lat:" + str(a[0]) + ", lng:" +str(a[1])
+#ville.append(tmp)
+#%>
+#%end
+#var ville = {{ville[0]}};

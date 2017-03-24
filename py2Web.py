@@ -13,10 +13,16 @@ def index():
     ville = bd.villes()
     niv = bd.niveau()
     act = bd.activites()
-    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
+    tmp1=0
+    tmp2=0
+    position = tmp1, tmp2
+    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, gps=position)
 
 @route('/', method='POST')
 def index():
+    tmp1=0
+    tmp2=0
+    position = tmp1, tmp2
     bd = SGBD()
     ville = bd.villes()
     niv = bd.niveau()
@@ -26,18 +32,35 @@ def index():
     rNiveau = request.forms.get('niveau')
 
     if rVille!="" and rActivite!="":
-        ville="cc"
+        position2 = []
+        rData = []
+        rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
+        for element in rEqu:
+            tmp = element[1][1], element[1][0]
+            position2.append(tmp)
+            tmp2 = element
+            rData.append(tmp2)
+        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
 
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
-        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
+        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, gps=position)
 
     if rVille=="" and rActivite!="":
-        ville="salut"
+        position2 = []
+        rData = []
+        rVille = bd.act_ville(rActivite, rNiveau)
+        #boucle for décomposition position
+        for element in rVille:
+            tmp = element[1][1], element[1][0]
+            position2.append(tmp)
+            tmp2 = element
+            rData.append(tmp2)
+        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
 
     if rVille=="" and rActivite=="":
         e="Veuillez renseigner au moins un champs de recherche"
-        return template('index.tpl', erreur=e, data=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
+        return template('index.tpl', erreur=e, data=None, villes=ville, activites=act, niveau=niv, gps=position)
 
     return template('index.tpl')
 
