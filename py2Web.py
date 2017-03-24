@@ -26,14 +26,16 @@ def index():
     rNiveau = request.forms.get('niveau')
 
     if rVille!="" and rActivite!="":
-        ville="cc"
+        rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
+        return template('index.tpl', data=rEqu, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
 
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
         return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
 
     if rVille=="" and rActivite!="":
-        ville="salut"
+        rVille = bd.act_ville(rActivite, rNiveau)
+        return template('index.tpl', data=rVille, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
 
     if rVille=="" and rActivite=="":
         e="Veuillez renseigner au moins un champs de recherche"
