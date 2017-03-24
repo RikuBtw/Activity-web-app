@@ -31,9 +31,13 @@
       Ville <input list="browsers" name="ville">
       Activité <input list="browsers2" name="activite">
       <select name="niveau">
-        <option value=""></option>
-        <option value=""></option>
+        <%
+        for n in niveau:
+        %>
+            <option value={{n}}>{{n}}</option>
+        %end
       </select>
+
       <datalist id="browsers">
       <%
       if villes != None:
@@ -60,6 +64,12 @@
     %>
         <li>{{i}}</li>
     %end
+    %end
+
+    <%
+    if erreur != None :
+    %>
+    <p>{{erreur}}</p>
     %end
 
       <div id="map">

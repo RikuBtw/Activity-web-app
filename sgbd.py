@@ -11,7 +11,7 @@ class SGBD:
 
     # renvoie toutes les villes et les activités disponibles
     def datalist(self):
-        query = ("SELECT ComLib, ActLib, ActNivLib FROM activite")
+        query = ("SELECT ComLib, ActLib FROM activite")
         self.cursor.execute(query)
         resultat=[]
         for data in self.cursor:
@@ -64,6 +64,7 @@ class SGBD:
           rVille = a[0]
         return rVille
 
+    #renvoie toutes les villes
     def villes(self):
         query = ("SELECT ComLib FROM commune GROUP BY ComLib")
         rVille = []
@@ -73,6 +74,7 @@ class SGBD:
           rVille.append(a[0])
         return rVille
 
+    #renvoie toutes les activités
     def activites(self):
         query = ("SELECT ActLib FROM activite GROUP BY ActLib")
         rActivite = []
@@ -80,6 +82,27 @@ class SGBD:
         for (a) in self.cursor:
           rActivite.append(a[0])
         return rActivite
+
+    #renvoie toutes les activités
+    def niveau(self):
+        query = ("SELECT ActNivLib FROM activite GROUP BY ActNivLib")
+        rNiveau = []
+        self.cursor.execute(query)
+        for (a) in self.cursor:
+          rNiveau.append(a[0])
+        return rNiveau
+
+    # à partir d'une activité et d'un niveau, renvoie toutes les équippemts qui permettent cette activité
+    def act_equ(self,act):
+        act.capitalize()
+        query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
+        act = (act,)
+        rVille = []
+        self.cursor.execute(query, act)
+        for (v) in self.cursor:
+            paire = v[0]
+            rVille.append( paire )
+        return rVille
 
     # à partir d'une ville et d'une activité, renvoie tous ses équipements
     def equipements_villes(self, ville, act):
