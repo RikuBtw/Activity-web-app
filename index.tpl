@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="./style.css">
+   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>
       function initMap() {
-        var ville = {lat: {{gps[0][0]}}, lng: {{gps[0][1]}}};
+        var ville = {lat: 47.408949, lng: -1.653876};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: ville
@@ -15,31 +15,25 @@
           map: map
         });
       }
-      function change() {
-        document.getElementsByTagName('body')[0].style.height = '0px';
-        document.getElementById('rectangle-up').setAttribute('id','rectangle-uped');
-        document.getElementById('container-search').setAttribute('id','container-searched');
-      }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy-LUs1hW_K0wSh38-nNVwkXUnJgPxyYU&callback=initMap">
     </script>
   </head>
-
   <body>
-    <div id = "rectangle-up">
-      <div id = "container-search">
+    <div class="container">
+      <div class="menu">
+        <div class="logo"></div>
         <form action="" method="post" autocomplete="off">
-          Ville <input list="browsers" name="ville">
-          Activité <input list="browsers2" name="activite">
-          <select name="niveau">
-            <%
-            for n in niveau:
-            %>
-                <option value={{n}}>{{n}}</option>
-            %end
-          </select>
-
+          <input list="browsers" name="ville" class="search" placeholder="ex: Nantes">
+          <input list="browsers2" name="activite" class="search" placeholder="ex: Basket-Ball">
+            <select name="niveau" class="search">
+              <%
+              for n in niveau:
+              %>
+                  <option value={{n}}>{{n}}</option>
+              %end
+            </select>
           <datalist id="browsers">
           <%
           if villes != None:
@@ -59,32 +53,13 @@
           %end
           </datalist>
           <input type="submit" value="Search">
+          <hr>
         </form>
+        <div class="info">
+        </div>
       </div>
-    </div>
-    <div class="container-info">
-      <div class="info-haut">
-        <%
-        if data != None :
-        for i in data:
-        %>
-            <li>{{i}}</li>
-        %end
-        %end
-
-        <%
-        if erreur != None :
-        %>
-        <p>{{erreur}}</p>
-        %end
-      </div>
-
       <div id="map">
-
+      </div>
     </div>
-
-    </div>
-
-
   </body>
 </html>
