@@ -27,53 +27,60 @@
   </head>
 
   <body>
-    <form action="" method="post" autocomplete="off">
-      Ville <input list="browsers" name="ville">
-      Activité <input list="browsers2" name="activite">
-      <select name="niveau">
-        <%
-        for n in niveau:
-        %>
-            <option value={{n}}>{{n}}</option>
-        %end
-      </select>
+    <div id = "rectangle-up">
+      <div id = "container-search">
+        <form action="" method="post" autocomplete="off">
+          Ville <input list="browsers" name="ville">
+          Activité <input list="browsers2" name="activite">
+          <select name="niveau">
+            <%
+            for n in niveau:
+            %>
+                <option value={{n}}>{{n}}</option>
+            %end
+          </select>
 
-      <datalist id="browsers">
-      <%
-      if villes != None:
-      for c in villes:
-      %>
-          <option value={{c}}>
-      %end
-      %end
-      </datalist>
-      <datalist id="browsers2">
-      <%
-      if activites != None:
-      for c in activites:
-      %>
-          <option value={{c}}>
-      %end
-      %end
-      </datalist>
-      <input type="submit" value="Search">
-    </form>
-    <%
-    if data != None :
-    for i in data:
-    %>
-        <li>{{i}}</li>
-    %end
-    %end
-
-    <%
-    if erreur != None :
-    %>
-    <p>{{erreur}}</p>
-    %end
-
-      <div id="map">
+          <datalist id="browsers">
+          <%
+          if villes != None:
+          for c in villes:
+          %>
+              <option value={{c}}>
+          %end
+          %end
+          </datalist>
+          <datalist id="browsers2">
+          <%
+          if activites != None:
+          for c in activites:
+          %>
+              <option value={{c}}>
+          %end
+          %end
+          </datalist>
+          <input type="submit" value="Search">
+        </form>
       </div>
+    </div>
+    <div class="container-info">
+      <div class="info-haut">
+        <%
+        if data != None :
+        for i in data:
+        %>
+            <li>{{i}}</li>
+        %end
+        %end
+
+        <%
+        if erreur != None :
+        %>
+        <p>{{erreur}}</p>
+        %end
+      </div>
+    </div>
+    <div id="map">
+    </div>
 
 
   </body>
