@@ -96,3 +96,13 @@ class SGBD:
         for (a) in self.latitude:
           rVille = a[0],a[1]
         return rVille
+
+#<%
+#ville = []
+#tmp=[]
+#for a in gps:
+#tmp = "lat:" + str(a[0]) + ", lng:" +str(a[1])
+#ville.append(tmp)
+#%>
+#%end
+#var ville = {{ville[0]}};

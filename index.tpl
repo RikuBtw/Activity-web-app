@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="./style.css">
     <script>
       function initMap() {
-        var ville = {lat: {{gps[0]}}, lng: {{gps[1]}}};
+        var ville = {lat: {{gps[0][0]}}, lng: {{gps[0][1]}}};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: ville
@@ -78,6 +78,9 @@
         <p>{{erreur}}</p>
         %end
       </div>
+
+      {{gps[0][1]}}  {{gps[1]}}
+
     </div>
     <div id="map">
     </div>
