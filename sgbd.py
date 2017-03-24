@@ -96,8 +96,3 @@ class SGBD:
         for (a) in self.latitude:
           rVille = a[0],a[1]
         return rVille
-
-
-bd = SGBD()
-tmp = bd.equipements_villes("Nantes","Basket-Ball", "Scolaire")
-print(tmp)
