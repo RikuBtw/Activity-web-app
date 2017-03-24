@@ -26,10 +26,11 @@ def index():
     rNiveau = request.forms.get('niveau')
 
     if rVille!="" and rActivite!="":
-        ville="boujour"
+        ville="cc"
 
     if rVille!="" and rActivite=="":
-        ville="cc"
+        rAct = bd.ville_act(rVille,rNiveau)
+        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, latitude=0, longitude=0)
 
     if rVille=="" and rActivite!="":
         ville="salut"
