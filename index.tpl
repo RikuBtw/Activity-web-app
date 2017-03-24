@@ -78,8 +78,9 @@
         <p>{{erreur}}</p>
         %end
       </div>
+      <div id="map">
     </div>
-    <div id="map">
+
     </div>
 
 
