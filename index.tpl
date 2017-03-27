@@ -6,13 +6,15 @@
     <script>
       function initMap() {
 
-        var ville = {lat: 0, lng: 0};
+        var ville = {lat: 47.237225, lng: -1.510021};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 10,
+          zoom: 9,
           center: ville
         });
 
         var markers ={{!markers}};
+
+
 
         var infowindow = new google.maps.InfoWindow(), marker, i;
         for (i = 0; i < markers.length; i++) {

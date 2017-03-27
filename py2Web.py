@@ -17,11 +17,13 @@ def index():
     tmp2=0
     position = tmp1, tmp2
     tmp=[]
-    tmp.append("titre")
-    tmp.append("description")
+    marker = []
+    tmp.append('<h1>Nantes</h1>')
+    tmp.append('Vous êtes ici !')
     tmp.append(47.237225)
     tmp.append(-1.510021)
-    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, markers=tmp)
+    marker.append(tmp)
+    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
 @route('/', method='POST')
 def index():
