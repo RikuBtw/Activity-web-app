@@ -52,7 +52,10 @@ class SGBD:
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
             rActivite.append(a[0])
-        return rActivite
+        resultat=[]
+        for tmp in rActivite:
+            resultat.append(self.equipements_villes(ville,tmp,niv))
+        return resultat
 
     # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
     def act_ville(self,act,niv):
@@ -63,7 +66,7 @@ class SGBD:
             query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
             paire = (act,niv)
         else:
-            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
+            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")    !=""
             paire = (act,)
         rVille = []
         self.cursor.execute(query, paire)
@@ -110,10 +113,5 @@ class SGBD:
           rVille = a[0],a[1]
         return rVille
 
-#<%
-#localisation=""
-#for a in gps:
-#localisation =localisation + "lat:" + str(a[0]) + ", lng:" +str(a[1])+ ", "
-#%>
-#%end
-#var ville = {{localisation}};
+bd = SGBD()
+print(bd.ville_act("Nantes","Entrainement"))
