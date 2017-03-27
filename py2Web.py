@@ -54,8 +54,20 @@ def index():
         return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille!="" and rActivite=="":
+        marker = []
+        rData = []
         rAct = bd.ville_act(rVille,rNiveau)
-        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, markers=position)
+        for ele in rAct:
+            for element in ele:
+                tmp=[];
+                tmp.append(element[0])
+                tmp.append('description')
+                tmp.append(element[1][1])
+                tmp.append(element[1][0])
+                marker.append(tmp)
+                tmp2 = element[0]
+                rData.append(tmp2)
+        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille=="" and rActivite!="":
         marker = []
