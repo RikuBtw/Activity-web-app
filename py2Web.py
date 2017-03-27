@@ -16,7 +16,12 @@ def index():
     tmp1=0
     tmp2=0
     position = tmp1, tmp2
-    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, gps=position)
+    tmp=[]
+    tmp.append("titre")
+    tmp.append("description")
+    tmp.append(47.237225)
+    tmp.append(-1.510021)
+    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, markers=tmp)
 
 @route('/', method='POST')
 def index():
@@ -33,36 +38,42 @@ def index():
 
     if rVille!="" and rActivite!="":
         marker = []
-        tmp="";
         rData = []
         rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
         for element in rEqu:
-            tmp = tmp "[" + element[0] + ", DESCRIPTION, " + str(element[1][1]) + ", " + str(element[1][0]) + "]"
+            tmp=[];
+            tmp.append(element[0])
+            tmp.append('description')
+            tmp.append(element[1][1])
+            tmp.append(element[1][0])
             marker.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)
-            print(position2)
         return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
-        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, gps=position)
+        return template('index.tpl', data=rAct, erreur=None, villes=ville, activites=act, niveau=niv, markers=position)
 
     if rVille=="" and rActivite!="":
-        position2 = []
+        marker = []
         rData = []
         rVille = bd.act_ville(rActivite, rNiveau)
         #boucle for décomposition position
         for element in rVille:
-            tmp= str(element[1][1]), str(element[1][0])
-            position2.append(tmp)
+            tmp=[];
+            tmp.append(element[0])
+            tmp.append('description')
+            tmp.append(element[1][0])
+            tmp.append(element[1][1])
+            marker.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)
-        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
+        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille=="" and rActivite=="":
         e="Veuillez renseigner au moins un champs de recherche"
-        return template('index.tpl', erreur=e, data=None, villes=ville, activites=act, niveau=niv, gps=position)
+        return template('index.tpl', erreur=e, data=None, villes=ville, activites=act, niveau=niv, markers=position)
 
     return template('index.tpl')
 

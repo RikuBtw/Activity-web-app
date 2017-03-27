@@ -72,7 +72,6 @@ class SGBD:
         for ville in villes:
             tmp = ville, self.PositionGPS(ville)
             rVille.append(tmp)
-        print(rVille)
         return rVille
 
     # à partir d'une ville, d'une activité et d'un niveau, renvoie tous ses équipements
