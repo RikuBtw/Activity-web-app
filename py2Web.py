@@ -32,16 +32,17 @@ def index():
     rNiveau = request.forms.get('niveau')
 
     if rVille!="" and rActivite!="":
-        position2 = []
+        marker = []
+        tmp="";
         rData = []
         rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
         for element in rEqu:
-            tmp = "Lat:" + str(element[1][1]) + ", Lng:" + str(element[1][0])
-            position2.append(tmp)
+            tmp = tmp "[" + element[0] + ", DESCRIPTION, " + str(element[1][1]) + ", " + str(element[1][0]) + "]"
+            marker.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)
             print(position2)
-        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, gps=position2)
+        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
@@ -53,7 +54,7 @@ def index():
         rVille = bd.act_ville(rActivite, rNiveau)
         #boucle for décomposition position
         for element in rVille:
-            tmp = "Lat:" + str(element[1][1]) + ", Lng:" + str(element[1][0])
+            tmp= str(element[1][1]), str(element[1][0])
             position2.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)

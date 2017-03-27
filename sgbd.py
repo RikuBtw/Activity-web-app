@@ -36,7 +36,6 @@ class SGBD:
         self.cursor.execute(query)
         for (a) in self.cursor:
             if a[0]!=None:
-                print(a[0])
                 rNiveau.append(a[0])
         return rNiveau
 
@@ -73,6 +72,7 @@ class SGBD:
         for ville in villes:
             tmp = ville, self.PositionGPS(ville)
             rVille.append(tmp)
+        print(rVille)
         return rVille
 
     # à partir d'une ville, d'une activité et d'un niveau, renvoie tous ses équipements
@@ -81,8 +81,12 @@ class SGBD:
         act.capitalize()
         rRecherche = []
         listeEquId = []
-        query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s AND ActNivLib=%s")
-        paire = (ville, act, niv)
+        if niv=="Non défini":
+            query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s AND ActNivLib=%s")
+            paire = (ville, act, niv)
+        else:
+            query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s")
+            paire = (ville, act)
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
             listeEquId.append(a[0])
@@ -108,11 +112,9 @@ class SGBD:
         return rVille
 
 #<%
-#ville = []
-#tmp=[]
+#localisation=""
 #for a in gps:
-#tmp = "lat:" + str(a[0]) + ", lng:" +str(a[1])
-#ville.append(tmp)
+#localisation =localisation + "lat:" + str(a[0]) + ", lng:" +str(a[1])+ ", "
 #%>
 #%end
-#var ville = {{ville[0]}};
+#var ville = {{localisation}};

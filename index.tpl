@@ -6,7 +6,7 @@
     <script>
       function initMap() {
 
-        var ville = {lat: 47.408949, lng: -1.653876};
+        var ville = {lat: {{gps[0]}}, lng: {{gps[1]}}};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: ville
