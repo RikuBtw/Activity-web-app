@@ -28,7 +28,7 @@
         <form action="" method="post" autocomplete="off">
           <input list="browsers" name="ville" class="search" placeholder="ex: Nantes">
           <input list="browsers2" name="activite" class="search" placeholder="ex: Basket-Ball">
-            <select name="niveau" class="search">
+            <select name="niveau" class="select">
               <%
               for n in niveau:
               %>
