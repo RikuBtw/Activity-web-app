@@ -11,10 +11,26 @@
           zoom: 10,
           center: ville
         });
-        var marker = new google.maps.Marker({
-          position: ville,
-          map: map
+
+        var markers = {{markers}}
+
+        var infowindow = new google.maps.InfoWindow(), marker, i;
+        for (i = 0; i < markers.length; i++) {
+            marker = new google.maps.Marker({
+
+            position: new google.maps.LatLng(markers[i][2], markers[i][3]),
+            title: markers[i][0],
+            map: map
         });
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infowindow.setContent(markers[i][0] + "</br>" + markers[i][1]);
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+      }
+
+
       }
     </script>
     <script async defer
@@ -28,7 +44,7 @@
         <form action="" method="post" autocomplete="off">
           <input list="browsers" name="ville" class="search" placeholder="ex: Nantes">
           <input list="browsers2" name="activite" class="search" placeholder="ex: Basket-Ball">
-            <select name="niveau" class="search">
+            <select name="niveau" class="select"  value="Non défini">
               <%
               for n in niveau:
               %>
