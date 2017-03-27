@@ -35,15 +35,20 @@ class SGBD:
         rNiveau = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-            if a[0]!="None":
+            if a[0]!=None:
+                print(a[0])
                 rNiveau.append(a[0])
         return rNiveau
 
     # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
     def ville_act(self,ville,niv):
         ville.capitalize()
-        query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
-        paire = (ville,niv)
+        if niv=="Non défini":
+            query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
+            paire = (ville,niv)
+        else:
+            query = ("SELECT ActLib FROM activite WHERE ComLib=%s GROUP BY ActLib")
+            paire = (ville,)
         rActivite = []
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
@@ -55,8 +60,12 @@ class SGBD:
         act.capitalize()
         villes = []
         tmp = []
-        query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
-        paire = (act,niv)
+        if niv=="Non défini":
+            query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
+            paire = (act,niv)
+        else:
+            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
+            paire = (act,)
         rVille = []
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
@@ -72,8 +81,8 @@ class SGBD:
         act.capitalize()
         rRecherche = []
         listeEquId = []
-        paire = (ville, act)
-        query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s")
+        query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s AND ActNivLib=%s")
+        paire = (ville, act, niv)
         self.cursor.execute(query, paire)
         for (a) in self.cursor:
             listeEquId.append(a[0])
