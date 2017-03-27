@@ -35,7 +35,8 @@ class SGBD:
         rNiveau = []
         self.cursor.execute(query)
         for (a) in self.cursor:
-          rNiveau.append(a[0])
+            if a[0]!="None":
+                rNiveau.append(a[0])
         return rNiveau
 
     # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
