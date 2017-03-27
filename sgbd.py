@@ -66,7 +66,7 @@ class SGBD:
             query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
             paire = (act,niv)
         else:
-            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")    !=""
+            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
             paire = (act,)
         rVille = []
         self.cursor.execute(query, paire)
