@@ -13,12 +13,9 @@ def index():
     ville = bd.villes()
     niv = bd.niveau()
     act = bd.activites()
-    tmp1=0
-    tmp2=0
-    position = tmp1, tmp2
     tmp=[]
     marker = []
-    tmp.append('<h1>Nantes</h1>')
+    tmp.append('<b>Nantes</b>')
     tmp.append('Vous êtes ici !')
     tmp.append(47.237225)
     tmp.append(-1.510021)
@@ -27,9 +24,8 @@ def index():
 
 @route('/', method='POST')
 def index():
-    tmp1=0
-    tmp2=0
-    position = tmp1, tmp2
+
+    e=None
     bd = SGBD()
     ville = bd.villes()
     niv = bd.niveau()
@@ -37,59 +33,50 @@ def index():
     rVille = request.forms.get('ville')
     rActivite = request.forms.get('activite')
     rNiveau = request.forms.get('niveau')
+    marker = []
+    rData = []
 
     if rVille!="" and rActivite!="":
-        marker = []
-        rData = []
         rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
         for element in rEqu:
             tmp=[];
-            tmp.append(element[0])
+            tmp.append("<b>"+element[0]+"</b>")
             tmp.append('description')
             tmp.append(element[1][1])
             tmp.append(element[1][0])
             marker.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)
-        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille!="" and rActivite=="":
-        marker = []
-        rData = []
         rAct = bd.ville_act(rVille,rNiveau)
         for ele in rAct:
             for element in ele:
                 tmp=[];
-                tmp.append(element[0])
+                tmp.append("<b>"+element[0]+"</b>")
                 tmp.append('description')
                 tmp.append(element[1][1])
                 tmp.append(element[1][0])
                 marker.append(tmp)
                 tmp2 = element[0]
                 rData.append(tmp2)
-        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille=="" and rActivite!="":
-        marker = []
-        rData = []
         rVille = bd.act_ville(rActivite, rNiveau)
-        #boucle for décomposition position
         for element in rVille:
             tmp=[];
-            tmp.append(element[0])
+            tmp.append("<b>"+element[0]+"</b>")
             tmp.append('description')
             tmp.append(element[1][0])
             tmp.append(element[1][1])
             marker.append(tmp)
             tmp2 = element[0]
             rData.append(tmp2)
-        return template('index.tpl', data=rData, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
     if rVille=="" and rActivite=="":
         e="Veuillez renseigner au moins un champs de recherche"
-        return template('index.tpl', erreur=e, data=None, villes=ville, activites=act, niveau=niv, markers=position)
 
-    return template('index.tpl')
+    return template('index.tpl', erreur=e, data=rData, villes=ville, activites=act, niveau=niv, markers=marker)
 
 
 

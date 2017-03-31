@@ -11,11 +11,7 @@
           zoom: 9,
           center: ville
         });
-
         var markers ={{!markers}};
-
-
-
         var infowindow = new google.maps.InfoWindow(), marker, i;
         for (i = 0; i < markers.length; i++) {
             marker = new google.maps.Marker({
@@ -76,15 +72,10 @@
         </form>
         <div class="info">
           <%
-          if erreur != None:
+          if data == []:
           %>
-            {{erreur}}
-          %end
-
-          <%
-          if data != None:
-          %>
-            {{data}}
+            <div class="no-result"></div>
+            Aucun résultat
           %end
         </div>
       </div>

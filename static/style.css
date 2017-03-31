@@ -4,20 +4,21 @@
 }
 select {
 	font-family: Roboto;
-  background-color: white;
-  display: inline-block;
-  line-height: 1.5em;
-  padding: 0.5em 3.5em 0.5em 0.5em;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+	background-color: white;
+	display: inline-block;
+	line-height: 1.5em;
+	padding: 0.5em 3.5em 0.5em 0.5em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	-moz-appearance: none;
 }
 #map {
 	height: 100vh;
 	width: 100vw;
 }
+
 form{
 	display: flex;
 	align-items: center;
@@ -66,18 +67,18 @@ hr{
 	box-shadow: inset 0px 0px 1px rgba(100,100,100,0.5);
 	background-color: #fff;
 	background-image:
-    linear-gradient(45deg, transparent 50%, gray 50%),
-    linear-gradient(135deg, gray 50%, transparent 50%),
-    linear-gradient(to right, #ccc, #ccc);
-  background-position:
-    calc(100% - 20px) calc(1em + 2px),
-    calc(100% - 15px) calc(1em + 2px),
-    calc(100% - 2.5em) 0.5em;
-  background-size:
-    5px 5px,
-    5px 5px,
-    1px 1.5em;
-  background-repeat: no-repeat;
+	linear-gradient(45deg, transparent 50%, gray 50%),
+	linear-gradient(135deg, gray 50%, transparent 50%),
+	linear-gradient(to right, #ccc, #ccc);
+	background-position:
+	calc(100% - 20px) calc(1em + 2px),
+	calc(100% - 15px) calc(1em + 2px),
+	calc(100% - 2.5em) 0.5em;
+	background-size:
+	5px 5px,
+	5px 5px,
+	1px 1.5em;
+	background-repeat: no-repeat;
 }
 
 .menu{
@@ -86,7 +87,7 @@ hr{
 	background-color: #fff;
 	height:100vh;
 	width:400px;
-  box-shadow: 10px 0px 5px rgba(100,100,100,0.3	);
+	box-shadow: 10px 0px 5px rgba(100,100,100,0.3	);
 
 }
 
@@ -98,12 +99,30 @@ hr{
  input[type="submit"] {
 	width: 150px;
 	height: 50px;
-	background-color: rgb(33, 150, 243);
+	background-color: #157efb;
 	border-radius: 1px;
-	border: 1px solid rgb(33, 150, 243);
+	border: 1px solid #157efb;
 	color: rgb(255, 255, 255);
 	font-family: Roboto;
 	font-size: 0.9em;
 	margin-top: 40px;
 	cursor:pointer;
+}
+
+.no-result{
+	margin-top: 50px;
+	height: 150px;
+	width: 150px;
+	background-image: url("./face.svg");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.info{
+	text-transform: uppercase;
+	font-family: 'Roboto', sans-serif;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content :center;
 }
