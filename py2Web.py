@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from bottle import route, run, template, request, static_file
+from bottle import route, run, template, request, static_file, error
 from sgbd import SGBD
 
 @route('/<filename>')
 def send_static(filename):
     return static_file(filename, root='static/')
+
+@error(404)
+def custom404(error):
+    return "La page n'existe pas, désolé :("
+
 
 @route('/')
 def index():

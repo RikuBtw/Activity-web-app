@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="./style.css">
    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <script>
       function initMap() {
 
@@ -11,16 +12,18 @@
           zoom: 9,
           center: ville
         });
+
+        google.maps.event.addListener(map, 'click', function(event) {
+           placeMarker(event.latLng);
+        });
+      
         var markers ={{!markers}};
         var infowindow = new google.maps.InfoWindow(), marker, i;
         for (i = 0; i < markers.length; i++) {
             marker = new google.maps.Marker({
-
             position: new google.maps.LatLng(markers[i][0][0], markers[i][0][1]),
             title: markers[i][0],
             map: map
-
-
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -45,7 +48,7 @@
   <body>
     <div class="container">
       <div class="menu">
-        <div class="logo"></div>
+        <div class="logo"><p>Sportifind</p></div>
         <form action="" method="post" autocomplete="off">
           <input list="browsers" name="ville" class="search" placeholder="ex: Nantes">
           <input list="browsers2" name="activite" class="search" placeholder="ex: Basket-Ball">
