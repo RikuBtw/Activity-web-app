@@ -42,39 +42,103 @@ class SGBD:
     # à partir du nom d'une ville et d'un niveau, renvoie toutes les activités disponibles dans la ville
     def ville_act(self,ville,niv):
         ville.capitalize()
+        resultat = []
+        rAct =[]
+        tempResult = []
         if niv=="Non défini":
-            query = ("SELECT ActLib FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ComLib=%s AND ActNivLib=%s GROUP BY ActLib")
             paire = (ville,niv)
         else:
-            query = ("SELECT ActLib FROM activite WHERE ComLib=%s GROUP BY ActLib")
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ComLib=%s GROUP BY ActLib")
             paire = (ville,)
         rActivite = []
         self.cursor.execute(query, paire)
+
         for (a) in self.cursor:
-            rActivite.append(a[0])
-        resultat=[]
-        for tmp in rActivite:
-            resultat.append(self.equipements_villes(ville,tmp,niv))
-        return resultat
+            results = a[0],a[1],a[2],a[3],a[4]
+            tempResult.append(results)
+        for (a) in tempResult:
+            resultat = []
+            NumIns = 0;
+            InsLib = "";
+            tmpGPS = []
+            tmpEqu = []
+            query2 = ("SELECT EquGpsX, EquGpsY, EquNom, InsNom, InsNumeroInstall  FROM equipement WHERE EquipementId=%s")
+            paire2 = (a[2],)
+            self.cursor.execute(query2, paire2)
+            for (b) in self.cursor:
+                tmpGPS.append(str(b[1]))
+                tmpGPS.append(str(b[0]))
+                tmpEqu.append(b[2])
+                tmpEqu.append(b[3])
+                NumIns = b[4]
+            query3 = ("SELECT InsLibelleVoie FROM commune WHERE InsNumeroInstall=%s")
+            paire3 = (NumIns,)
+            self.cursor.execute(query3, paire3)
+            for (b) in self.cursor:
+                tmpEqu.append(b[0])
+            tmpAct = []
+            tmpAct.append(str(a[0]))
+            tmpAct.append(str(a[1]))
+            tmpCom = []
+            tmpCom.append(str(a[3]))
+            tmpCom.append(str(a[4]))
+            resultat.append(tmpGPS)
+            resultat.append(tmpAct)
+            resultat.append(tmpCom)
+            resultat.append(tmpEqu)
+            rAct.append(resultat)
+        return rAct
 
     # à partir d'une activité et d'un niveau, renvoie toutes les villes qui permettent cette activité
     def act_ville(self,act,niv):
         act.capitalize()
-        villes = []
-        tmp = []
+        resultat = []
+        rVille =[]
+        tempResult = []
         if niv=="Non défini":
-            query = ("SELECT ComLib FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ActLib=%s AND ActNivLib=%s GROUP BY ComLib")
             paire = (act,niv)
         else:
-            query = ("SELECT ComLib FROM activite WHERE ActLib=%s GROUP BY ComLib")
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ActLib=%s GROUP BY ComLib")
             paire = (act,)
-        rVille = []
+        rActivite = []
         self.cursor.execute(query, paire)
+
         for (a) in self.cursor:
-            villes.append(a[0])
-        for ville in villes:
-            tmp = ville, self.PositionGPS(ville)
-            rVille.append(tmp)
+            results = a[0],a[1],a[2],a[3],a[4]
+            tempResult.append(results)
+        for (a) in tempResult:
+            resultat = []
+            NumIns = 0;
+            InsLib = "";
+            tmpGPS = []
+            tmpEqu = []
+            query2 = ("SELECT EquGpsX, EquGpsY, EquNom, InsNom, InsNumeroInstall  FROM equipement WHERE EquipementId=%s")
+            paire2 = (a[2],)
+            self.cursor.execute(query2, paire2)
+            for (b) in self.cursor:
+                tmpGPS.append(str(b[1]))
+                tmpGPS.append(str(b[0]))
+                tmpEqu.append(b[2])
+                tmpEqu.append(b[3])
+                NumIns = b[4]
+            query3 = ("SELECT InsLibelleVoie FROM commune WHERE InsNumeroInstall=%s")
+            paire3 = (NumIns,)
+            self.cursor.execute(query3, paire3)
+            for (b) in self.cursor:
+                tmpEqu.append(b[0])
+            tmpAct = []
+            tmpAct.append(str(a[0]))
+            tmpAct.append(str(a[1]))
+            tmpCom = []
+            tmpCom.append(str(a[3]))
+            tmpCom.append(str(a[4]))
+            resultat.append(tmpGPS)
+            resultat.append(tmpAct)
+            resultat.append(tmpCom)
+            resultat.append(tmpEqu)
+            rVille.append(resultat)
         return rVille
 
     # à partir d'une ville, d'une activité et d'un niveau, renvoie tous ses équipements
@@ -83,23 +147,50 @@ class SGBD:
         act.capitalize()
         rRecherche = []
         listeEquId = []
+        tempResult = []
         if niv=="Non défini":
-            query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s AND ActNivLib=%s")
-            paire = (ville, act, niv)
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ComLib=%s AND ActLib=%s AND ActNivLib=%s")
+            paire = (ville,act,niv)
         else:
-            query = ("SELECT EquipementId FROM activite WHERE ComLib=%s AND ActLib=%s")
-            paire = (ville, act)
+            query = ("SELECT ActLib, ActNivLib, EquipementId, ComLib, ComInsee FROM activite WHERE ComLib=%s AND ActLib=%s")
+            paire = (ville,act,)
+        rActivite = []
         self.cursor.execute(query, paire)
+
         for (a) in self.cursor:
-            listeEquId.append(a[0])
-        for (a) in listeEquId:
-            paire = (a,)
-            query = ("SELECT EquNom, EquGpsX, EquGpsY FROM equipement WHERE EquipementId=%s")
-            self.cursor.execute(query, paire)
-            for (a) in self.cursor:
-                tmp = a[1],a[2]
-                tmp2= a[0],tmp
-                rRecherche.append(tmp2)
+            results = a[0],a[1],a[2],a[3],a[4]
+            tempResult.append(results)
+        for (a) in tempResult:
+            resultat = []
+            NumIns = 0;
+            InsLib = "";
+            tmpGPS = []
+            tmpEqu = []
+            query2 = ("SELECT EquGpsX, EquGpsY, EquNom, InsNom, InsNumeroInstall  FROM equipement WHERE EquipementId=%s")
+            paire2 = (a[2],)
+            self.cursor.execute(query2, paire2)
+            for (b) in self.cursor:
+                tmpGPS.append(str(b[1]))
+                tmpGPS.append(str(b[0]))
+                tmpEqu.append(b[2])
+                tmpEqu.append(b[3])
+                NumIns = b[4]
+            query3 = ("SELECT InsLibelleVoie FROM commune WHERE InsNumeroInstall=%s")
+            paire3 = (NumIns,)
+            self.cursor.execute(query3, paire3)
+            for (b) in self.cursor:
+                tmpEqu.append(b[0])
+            tmpAct = []
+            tmpAct.append(str(a[0]))
+            tmpAct.append(str(a[1]))
+            tmpCom = []
+            tmpCom.append(str(a[3]))
+            tmpCom.append(str(a[4]))
+            resultat.append(tmpGPS)
+            resultat.append(tmpAct)
+            resultat.append(tmpCom)
+            resultat.append(tmpEqu)
+            rRecherche.append(resultat)
         return rRecherche
 
     # à partir d'une ville, renvoie sa latitude et sa longitude
@@ -114,4 +205,3 @@ class SGBD:
         return rVille
 
 bd = SGBD()
-print(bd.ville_act("Nantes","Entrainement"))

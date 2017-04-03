@@ -13,14 +13,29 @@ def index():
     ville = bd.villes()
     niv = bd.niveau()
     act = bd.activites()
-    tmp=[]
+    gps =[]
+    act =[]
+    equ = []
+    com = []
     marker = []
-    tmp.append('<b>Nantes</b>')
-    tmp.append('Vous êtes ici !')
-    tmp.append(47.237225)
-    tmp.append(-1.510021)
+    tmp=[]
+    tmpMarker=[]
+    gps.append(47.237225)
+    gps.append(-1.510021)
+    act.append('Nantes')
+    act.append('Vous êtes ici !')
+    equ.append("")
+    equ.append("")
+    com.append("")
+    com.append("")
+    com.append("")
+    tmp.append(gps)
+    tmp.append(act)
+    tmp.append(equ)
+    tmp.append(com)
     marker.append(tmp)
-    return template('index.tpl', data=None, erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
+    marker.append(tmpMarker)
+    return template('index.tpl', erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
 
 @route('/', method='POST')
 def index():
@@ -36,47 +51,53 @@ def index():
     marker = []
     rData = []
 
+    def infobox(array):
+        for element in array:
+            tmp= []
+            gps =[]
+            act =[]
+            equ = []
+            com = []
+            if (element[0] != []):
+                gps.append(element[0][0])
+                gps.append(element[0][1])
+                act.append(element[1][0])
+                if(element[1][1] != 'None'):
+                    act.append(element[1][1])
+                else:
+                    act.append("Niveau inconnu")
+                com.append(element[2][0] + " -")
+                com.append(element[2][1] +",")
+                equ.append(element[3][0]+ ",")
+                equ.append(element[3][1])
+                if(element[3][2] != None):
+                    com.append(element[3][2])
+                else:
+                    com.append("Adresse inconnue")
+                tmp.append(gps)
+                tmp.append(act)
+                tmp.append(equ)
+                tmp.append(com)
+
+                marker.append(tmp)
+
+
     if rVille!="" and rActivite!="":
         rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
-        for element in rEqu:
-            tmp=[];
-            tmp.append("<b>"+element[0]+"</b>")
-            tmp.append('description')
-            tmp.append(element[1][1])
-            tmp.append(element[1][0])
-            marker.append(tmp)
-            tmp2 = element[0]
-            rData.append(tmp2)
+        infobox(rEqu)
 
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
-        for ele in rAct:
-            for element in ele:
-                tmp=[];
-                tmp.append("<b>"+element[0]+"</b>")
-                tmp.append('description')
-                tmp.append(element[1][1])
-                tmp.append(element[1][0])
-                marker.append(tmp)
-                tmp2 = element[0]
-                rData.append(tmp2)
+        infobox(rAct)
 
     if rVille=="" and rActivite!="":
         rVille = bd.act_ville(rActivite, rNiveau)
-        for element in rVille:
-            tmp=[];
-            tmp.append("<b>"+element[0]+"</b>")
-            tmp.append('description')
-            tmp.append(element[1][0])
-            tmp.append(element[1][1])
-            marker.append(tmp)
-            tmp2 = element[0]
-            rData.append(tmp2)
+        infobox(rVille)
 
     if rVille=="" and rActivite=="":
         e="Veuillez renseigner au moins un champs de recherche"
 
-    return template('index.tpl', erreur=e, data=rData, villes=ville, activites=act, niveau=niv, markers=marker)
+    return template('index.tpl', erreur=e, villes=ville, activites=act, niveau=niv, markers=marker)
 
 
 

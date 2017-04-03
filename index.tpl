@@ -6,7 +6,7 @@
     <script>
       function initMap() {
 
-        var ville = {lat: 47.237225, lng: -1.510021};
+        var ville = {lat: 47.237225, lng: -1.25};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 9,
           center: ville
@@ -16,14 +16,21 @@
         for (i = 0; i < markers.length; i++) {
             marker = new google.maps.Marker({
 
-            position: new google.maps.LatLng(markers[i][2], markers[i][3]),
+            position: new google.maps.LatLng(markers[i][0][0], markers[i][0][1]),
             title: markers[i][0],
             map: map
+
+
         });
+
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                infowindow.setContent(markers[i][0] + "</br>" + markers[i][1]);
+                infowindow.setContent("<b>"+markers[i][1][0]+"</b>" + "<br/><br/>" + markers[i][1][1] + "<br/>" + markers[i][2][0] + " " + markers[i][2][1] + "<br/>"+ markers[i][3][0]+ " "+ markers[i][3][1]+ " "+ markers[i][3][2]);
                 infowindow.open(map, marker);
+                map.setZoom(14);
+                map.setCenter(marker.getPosition());
+                var theDiv = document.getElementById("info");
+                theDiv.innerHTML = "<h1>" + markers[i][1][0] + "</h1>" + "<br>\n<p>" + markers[i][1][1] + "<br>\n" + markers[i][2][0] + " " + markers[i][2][1] + "<br/>"+ markers[i][3][0]+ " "+ markers[i][3][1]+ " "+ markers[i][3][2] +"</p>" ;
             }
         })(marker, i));
       }
@@ -70,12 +77,16 @@
           <input type="submit" value="Search">
           <hr>
         </form>
-        <div class="info">
+        <div id="info">
           <%
-          if data == []:
+          if markers == []:
           %>
             <div class="no-result"></div>
             Aucun résultat
+          <%
+          else:
+          %>
+          <p>Cliquez sur un marqueur pour afficher les informations :)</p>
           %end
         </div>
       </div>
