@@ -25,8 +25,8 @@ def index():
     marker = []
     tmp=[]
     tmpMarker=[]
-    gps.append(47.237225)
-    gps.append(-1.510021)
+    gps.append(47.223225)
+    gps.append(-1.5450021)
     act.append('Nantes')
     act.append('Vous êtes ici !')
     equ.append("")

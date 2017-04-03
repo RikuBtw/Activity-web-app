@@ -16,7 +16,7 @@
         google.maps.event.addListener(map, 'click', function(event) {
            placeMarker(event.latLng);
         });
-      
+
         var markers ={{!markers}};
         var infowindow = new google.maps.InfoWindow(), marker, i;
         for (i = 0; i < markers.length; i++) {
