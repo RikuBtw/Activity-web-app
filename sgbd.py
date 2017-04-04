@@ -29,7 +29,7 @@ class SGBD:
           rActivite.append(a[0])
         return rActivite
 
-    #renvoie toutes les activités
+    #renvoie toutes les niveaux
     def niveau(self):
         query = ("SELECT ActNivLib FROM activite GROUP BY ActNivLib")
         rNiveau = []
@@ -193,7 +193,7 @@ class SGBD:
             rRecherche.append(resultat)
         return rRecherche
 
-    # à partir d'une ville, renvoie sa latitude et sa longitude
+    # à partir d'une ville, renvoie sa latitude et sa longitude : non implémentée, devait être utilisé pour la trajectoire
     def PositionGPS(self, ville):
         ville.capitalize()
         query = ("SELECT Latitude, Longitude FROM commune WHERE ComLib=%s GROUP BY Latitude")

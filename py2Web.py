@@ -3,21 +3,26 @@
 from bottle import route, run, template, request, static_file, error
 from sgbd import SGBD
 
+#CSS et images
 @route('/<filename>')
 def send_static(filename):
     return static_file(filename, root='static/')
 
+#Gestion des erreurs 404
 @error(404)
 def custom404(error):
     return "La page n'existe pas, désolé :("
 
 
+#Page d'accueil
 @route('/')
 def index():
     bd = SGBD()
     ville = bd.villes()
     niv = bd.niveau()
     act = bd.activites()
+    #Création de la boite de dialoge du curseur "Nantes"
+    #Les données doivent être initialisées, dans le cas contraire, la boite ne s'affiche pas, étant la même pour celle-ci et les villes plus complêtes
     gps =[]
     act =[]
     equ = []
@@ -40,29 +45,37 @@ def index():
     tmp.append(com)
     marker.append(tmp)
     marker.append(tmpMarker)
-    return template('index.tpl', erreur=None, villes=ville, activites=act, niveau=niv, markers=marker)
+    return template('index.tpl', villes=ville, activites=act, niveau=niv, markers=marker)
 
+#En cas de recherche
 @route('/', method='POST')
 def index():
-
+    #Initialisation
     e=None
     bd = SGBD()
     ville = bd.villes()
     niv = bd.niveau()
     act = bd.activites()
+    marker = []
+
+    #Récupérer les données en post
     rVille = request.forms.get('ville')
     rActivite = request.forms.get('activite')
     rNiveau = request.forms.get('niveau')
-    marker = []
-    rData = []
 
+    #Création des bulles d'information
     def infobox(array):
         for element in array:
             tmp= []
+            #Localisation
             gps =[]
+            #Activité
             act =[]
+            #Equipement
             equ = []
+            #Commune
             com = []
+            #Insertion des données de la base sql
             if (element[0] != []):
                 gps.append(element[0][0])
                 gps.append(element[0][1])
@@ -86,23 +99,22 @@ def index():
 
                 marker.append(tmp)
 
-
+    #Recherche de ville et activité
     if rVille!="" and rActivite!="":
         rEqu = bd.equipements_villes(rVille, rActivite, rNiveau)
         infobox(rEqu)
 
+    #Recherche de ville
     if rVille!="" and rActivite=="":
         rAct = bd.ville_act(rVille,rNiveau)
         infobox(rAct)
 
+    #Recherche d'activité
     if rVille=="" and rActivite!="":
         rVille = bd.act_ville(rActivite, rNiveau)
         infobox(rVille)
-
-    if rVille=="" and rActivite=="":
-        e="Veuillez renseigner au moins un champs de recherche"
-
-    return template('index.tpl', erreur=e, villes=ville, activites=act, niveau=niv, markers=marker)
+        
+    return template('index.tpl', villes=ville, activites=act, niveau=niv, markers=marker)
 
 
 
